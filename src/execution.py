@@ -14,7 +14,7 @@ dbName = os.environ.get("DB_NAME")
 
 mydb = mysql.connector.connect(host=host, port=port, user=user, passwd=passwd, db=dbName)
 
-with open(os.path.join(sys.path[0], "full-script"), "r") as f:
+with open(os.path.join(sys.path[0], "sql"), "r") as f:
     query = f.read()
 
 cursor = mydb.cursor(buffered=True)
