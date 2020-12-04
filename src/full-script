@@ -1,0 +1,112 @@
+CREATE TABLE IF NOT EXISTS authors
+(
+  id   INT AUTO_INCREMENT
+    PRIMARY KEY,
+  name TEXT NOT NULL,
+  createdAt TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT authors_id_uindex
+  UNIQUE (id)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS books
+(
+  id        INT AUTO_INCREMENT
+    PRIMARY KEY,
+  name      VARCHAR(255) NOT NULL,
+  image     VARCHAR(255) NULL,
+  createdAt TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  authorId  INT          NULL,
+  CONSTRAINT books_authors_id_fk
+  FOREIGN KEY (authorId) REFERENCES authors (id)
+)
+  ENGINE = InnoDB;
+
+
+
+CREATE TABLE IF NOT EXISTS clients
+(
+  id    INT AUTO_INCREMENT
+    PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  name  VARCHAR(255) NULL,
+  createdAt TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT clients_id_uindex
+  UNIQUE (id),
+  CONSTRAINT clients_email_uindex
+  UNIQUE (email)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS employees
+(
+  id        INT AUTO_INCREMENT
+    PRIMARY KEY,
+  name      VARCHAR(255) NOT NULL,
+  email     VARCHAR(255) NOT NULL,
+  createdAt TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS auths
+(
+  id         INT AUTO_INCREMENT
+    PRIMARY KEY,
+  email      VARCHAR(255) NOT NULL,
+  password   VARCHAR(255) NOT NULL,
+  role       VARCHAR(255) NOT NULL,
+  createdAt TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  clientId   INT          NULL,
+  employeeId INT          NULL,
+  CONSTRAINT auths_email_uindex
+  UNIQUE (email),
+  CONSTRAINT auths_clients_id_fk
+  FOREIGN KEY (clientId) REFERENCES clients (id)
+  ON UPDATE CASCADE
+  ON DELETE CASCADE,
+  CONSTRAINT auths_employees_id_fk
+  FOREIGN KEY (employeeId) REFERENCES employees (id)
+  ON UPDATE CASCADE
+  ON DELETE CASCADE
+
+)
+  ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS client_books
+(
+  id       INT AUTO_INCREMENT
+    PRIMARY KEY,
+  bookId   INT NOT NULL,
+  clientId INT NOT NULL,
+  createdAt TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT client_books_id_uindex
+  UNIQUE (id),
+  CONSTRAINT client_books_books_id_fk
+  FOREIGN KEY (bookId) REFERENCES books (id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT client_books_clients_id_fk
+  FOREIGN KEY (clientId) REFERENCES clients (id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+  ENGINE = InnoDB;
+
+
+
+
+
+
+
+ALTER TABLE auths ADD INDEX (clientId);
+ALTER TABLE auths ADD INDEX (employeeId);
+ALTER TABLE books ADD INDEX (authorId);
+ALTER TABLE client_books ADD INDEX (bookId);
+ALTER TABLE client_books ADD INDEX (clientId);
