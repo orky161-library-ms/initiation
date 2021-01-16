@@ -1,0 +1,12 @@
+create table if not exists auths
+(
+    id        int auto_increment
+        primary key,
+    email     varchar(255)                        not null,
+    password  varchar(255)                        not null,
+    role      varchar(255)                        not null,
+    createdAt timestamp default CURRENT_TIMESTAMP null,
+    updatedAt datetime  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP
+);
+
+ALTER TABLE auths ADD INDEX (id);

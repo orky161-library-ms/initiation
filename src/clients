@@ -1,0 +1,24 @@
+create table if not exists clients
+(
+    id        int auto_increment
+        primary key,
+    name      varchar(255)                        null,
+    createdAt timestamp default CURRENT_TIMESTAMP null,
+    updatedAt datetime  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    authId    int                                 null
+);
+
+create table if not exists client_books
+(
+    id        int auto_increment
+        primary key,
+    bookId    int                                 not null,
+    clientId  int                                 not null,
+    createdAt timestamp default CURRENT_TIMESTAMP null,
+    updatedAt datetime  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    constraint client_books_clients_id_fk
+            foreign key (clientId) references clients (id)
+);
+
+ALTER TABLE clients ADD INDEX (id);
+ALTER TABLE client_books ADD INDEX (clientId);

@@ -1,0 +1,11 @@
+create table if not exists employees
+(
+    id        int auto_increment
+        primary key,
+    name      varchar(255)                        not null,
+    createdAt timestamp default CURRENT_TIMESTAMP null,
+    updatedAt datetime  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    authId    int                                 null
+);
+
+ALTER TABLE employees ADD INDEX (id);

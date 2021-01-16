@@ -1,0 +1,12 @@
+create table if not exists books
+(
+    id        int auto_increment
+        primary key,
+    name      varchar(255)                        not null,
+    image     varchar(255)                        null,
+    createdAt timestamp default CURRENT_TIMESTAMP null,
+    updatedAt datetime  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    authorId  int                                 null
+);
+
+ALTER TABLE books ADD INDEX (id);

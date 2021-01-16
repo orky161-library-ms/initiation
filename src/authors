@@ -1,0 +1,11 @@
+create table if not exists authors
+(
+    id        int auto_increment
+        primary key,
+    name      text                                not null,
+    createdAt timestamp default CURRENT_TIMESTAMP null,
+    updatedAt datetime  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    authId    int                                 null
+);
+
+ALTER TABLE authors ADD INDEX (id);
